@@ -61,13 +61,11 @@ public class MainView extends JFrame implements ActionListener, KeyListener {
 			protected void paintComponent(Graphics g) {
 				Image image = null;
 				try {
-					//image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\title1.png"));
 					image = ImageIO.read(new File("img\\title1.png"));
 				}
 				catch (NullPointerException|IOException e) {
 					try {
-						//image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\notFound.jpg"));
-						image = ImageIO.read(new File("img\\notFound.png"));
+						image = ImageIO.read(new File("img\\notFound.jpg"));
 					} catch (IOException e1) {}
 				}
 				g.drawImage(image, 0, 0, this);
@@ -178,7 +176,7 @@ public class MainView extends JFrame implements ActionListener, KeyListener {
 
 		table.addMouseListener(new MouseListener() {
 			Delegate d = Delegate.getInstance();
-			@Override	public void mousePressed(MouseEvent e) {
+			@Override public void mousePressed(MouseEvent e) {
 				int row = table.getSelectedRow();
 				d.bookCtrl.showDetail((String)rowData[row][3]);
 			}
@@ -188,8 +186,6 @@ public class MainView extends JFrame implements ActionListener, KeyListener {
 			@Override public void mouseClicked(MouseEvent e) {}
 		});
 	}
-
-
 
 	@Override public void actionPerformed(ActionEvent e) {
 		Delegate d = Delegate.getInstance();

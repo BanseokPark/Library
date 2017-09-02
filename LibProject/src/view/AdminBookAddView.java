@@ -295,7 +295,7 @@ public class AdminBookAddView extends JFrame implements ActionListener {
 				buffImg.createGraphics().drawImage(image, 0, 0, this);
 				img_src = codeTextF.getText() + ".jpg";
 				//ImageIO.write(buffImg, "jpg", new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\" + img_src));
-        ImageIO.write(buffImg, "jpg", new File(img_src));
+        ImageIO.write(buffImg, "jpg", new File("img\\"+img_src));
 			} catch (IOException e1) {e1.printStackTrace();}
 
 			String type = typeCombo.getSelectedItem().toString();
