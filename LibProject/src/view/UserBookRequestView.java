@@ -30,7 +30,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 public class UserBookRequestView extends JFrame implements ActionListener {
-	private static final long serialVersionUID = 1L;	
+	private static final long serialVersionUID = 1L;
 	Delegate d = Delegate.getInstance();
 
 	// 도서 신청 작성
@@ -68,8 +68,7 @@ public class UserBookRequestView extends JFrame implements ActionListener {
 
 
 	public UserBookRequestView(MemberDto myInfo) {
-
-		super("도서 신청");		
+		super("도서 신청");
 		getContentPane().setLayout(null);
 
 		JPanel titlePanel = new JPanel(){
@@ -78,13 +77,14 @@ public class UserBookRequestView extends JFrame implements ActionListener {
 			protected void paintComponent(Graphics g) {
 				Image image = null;
 				try {
-					image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\title1.png"));
+					image = ImageIO.read(new File("img\\title1.png"));
 				}
 				catch (NullPointerException|IOException e) {
-					try {						
-						image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\notFound.jpg"));
+					try {
+						image = ImageIO.read(new File("img\\notFound.jpg"));
 					} catch (IOException e1) {}
-				} g.drawImage(image, 0, 0, this);
+				}
+				g.drawImage(image, 0, 0, this);
 			}
 		};
 		titlePanel.setOpaque(false);
@@ -93,12 +93,12 @@ public class UserBookRequestView extends JFrame implements ActionListener {
 		titlePanel.setBounds(0, 0, 1182, 118);
 		getContentPane().add(titlePanel);
 
-		// 신청할 도서 
+		// 신청할 도서
 		JPanel writePanel = new JPanel();
 		writePanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "신청할 도서정보", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		writePanel.setBounds(10, 128, 295, 460);
 		getContentPane().add(writePanel);
-		writePanel.setLayout(null);			
+		writePanel.setLayout(null);
 
 		JLabel titleLabel = new JLabel("* 제           목");
 		titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -122,7 +122,7 @@ public class UserBookRequestView extends JFrame implements ActionListener {
 
 
 		titleText = new JTextField();
-		titleText.setBounds(110, 40, 160, 25);		
+		titleText.setBounds(110, 40, 160, 25);
 		titleText.setColumns(10);
 		writePanel.add(titleText);
 
@@ -165,8 +165,8 @@ public class UserBookRequestView extends JFrame implements ActionListener {
 
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy / MM / dd");
-		String sysdate = sdf.format(date);	
-		idLab = new JLabel(sysdate + ", '" + myName + "' 님  접속");		
+		String sysdate = sdf.format(date);
+		idLab = new JLabel(sysdate + ", '" + myName + "' 님  접속");
 		idLab.setBounds(45, 24, 250, 15);
 		panelLogin.add(idLab);
 
@@ -186,7 +186,7 @@ public class UserBookRequestView extends JFrame implements ActionListener {
 
 		logoutBtn = new JButton("로그아웃");
 		logoutBtn.setBounds(31, 95, 210, 30);
-		logoutBtn.addActionListener(this);	
+		logoutBtn.addActionListener(this);
 		panelLogin.add(logoutBtn);
 
 
@@ -213,20 +213,20 @@ public class UserBookRequestView extends JFrame implements ActionListener {
 		menuPanel.add(chatBtn);
 
 		setSize(1192, 800);
-		setLocationRelativeTo(null);		
-		setVisible(true);		
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 
 
 
 
-	@Override public void actionPerformed(ActionEvent e) {		
-		JButton btn = (JButton)e.getSource();		
+	@Override public void actionPerformed(ActionEvent e) {
+		JButton btn = (JButton)e.getSource();
 
-		if(btn == submitBtn){				
+		if(btn == submitBtn){
 			boolean add = d.bookRequestCtrl.addBookRequest(new BookRequestDto(titleText.getText(),
-					typeTxt.getText(),publisherTxt.getText(),authorTxt.getText(),d.memCtrl.getLoginId()));			
-			if(add){ 
+					typeTxt.getText(),publisherTxt.getText(),authorTxt.getText(),d.memCtrl.getLoginId()));
+			if(add){
 				JOptionPane.showMessageDialog(null, "작성하신 내용이 신청되었습니다.");
 				bookRequestPanel.bookRequestTable(d.bookRequestCtrl.getBookRequestList(d.memCtrl.getLoginId()), 1);
 			} else { JOptionPane.showMessageDialog(null, "신청에 실패하였습니다.");}

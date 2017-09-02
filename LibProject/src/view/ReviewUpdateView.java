@@ -53,7 +53,7 @@ public class ReviewUpdateView extends JFrame implements ActionListener {
 		bookInfoPanel.setLayout(null);
 		bookInfoPanel.setBounds(14, 12, 504, 133);
 		getContentPane().add(bookInfoPanel);
-		
+
 		int img_width = 70;
 		int img_height = img_width*3/2;
 		JPanel imgPanel = new JPanel(){
@@ -62,11 +62,11 @@ public class ReviewUpdateView extends JFrame implements ActionListener {
 			protected void paintComponent(Graphics g) {
 				Image image = null;
 				try {
-					image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\"+dto.getImg()));
+					image = ImageIO.read(new File("img\\"+dto.getImg()));
 				}
 				catch (IOException | NullPointerException e) {
 					try {
-						image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\notFound.jpg"));
+						image = ImageIO.read(new File("img\\notFound.jpg"));
 					} catch (IOException e1) {}
 				}
 				image = image.getScaledInstance(img_width, img_height, Image.SCALE_SMOOTH);
@@ -169,17 +169,17 @@ public class ReviewUpdateView extends JFrame implements ActionListener {
 		JLabel rateLabel = new JLabel("평점");
 		rateLabel.setBounds(329, 27, 44, 24);
 		addReviewPanel.add(rateLabel);
-		
+
 		rateCombo = new JComboBox<String>();
 		rateCombo.setBounds(369, 27, 121, 24);
-		
+
 		for (int i = 0; i < 5; i++){
 			String rate = "";
 			for (int j = 0; j <= i; j++)
 				rate+="★";
 			rateCombo.addItem(rate);
 		}
-		
+
 		addReviewPanel.add(rateCombo);
 
 		if(d.memCtrl.getLoginId().equals(rdto.getId())){
@@ -194,7 +194,7 @@ public class ReviewUpdateView extends JFrame implements ActionListener {
 			deleteReviewBtn.setBounds(251, 437, 105, 35);
 			deleteReviewBtn.addActionListener(this);
 			getContentPane().add(deleteReviewBtn);
-			
+
 			exitBtn = new JButton("닫기");
 			exitBtn.setBounds(413, 437, 105, 35);
 			exitBtn.addActionListener(this);
@@ -202,15 +202,15 @@ public class ReviewUpdateView extends JFrame implements ActionListener {
 		}
 
 		setSize(550, 521);
-		setLocationRelativeTo(null);		
+		setLocationRelativeTo(null);
 		setVisible(true);
 
 		this.addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing(WindowEvent e) {				
+			public void windowClosing(WindowEvent e) {
 				new ReviewDetailView(dto, rdto);
 				dispose();
-			}			
+			}
 		});
 	}//constructor
 
@@ -245,22 +245,6 @@ public class ReviewUpdateView extends JFrame implements ActionListener {
 			new ReviewDetailView(dto, rdto);
 			dispose();
 		}
-			
+
 	}//action
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

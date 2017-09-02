@@ -37,13 +37,13 @@ import java.awt.Image;
 
 public class MainView extends JFrame implements ActionListener, KeyListener {
 	private static final long serialVersionUID = 1L;
-	
+
 	private JTextField idTextF;
 	private JPasswordField pwTextF;
-	
+
 	private JButton log_btn;
 	private JButton membership_btn;
-	
+
 	private String[] columnNames = { "순위", "제목", "대여횟수" };
 
 	DefaultTableModel model;
@@ -54,18 +54,20 @@ public class MainView extends JFrame implements ActionListener, KeyListener {
 	public MainView() {
 		setTitle("도서 관리 프로그램");
 		getContentPane().setLayout(null);
-		
+
 		JPanel titlePanel = new JPanel(){
 			private static final long serialVersionUID = 1L;
 			@Override
 			protected void paintComponent(Graphics g) {
 				Image image = null;
 				try {
-					image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\title1.png"));
+					//image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\title1.png"));
+					image = ImageIO.read(new File("img\\title1.png"));
 				}
 				catch (NullPointerException|IOException e) {
-					try {						
-						image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\notFound.jpg"));
+					try {
+						//image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\notFound.jpg"));
+						image = ImageIO.read(new File("img\\notFound.png"));
 					} catch (IOException e1) {}
 				}
 				g.drawImage(image, 0, 0, this);
@@ -76,11 +78,11 @@ public class MainView extends JFrame implements ActionListener, KeyListener {
 		titlePanel.setBackground(Color.red);
 		titlePanel.setBounds(0, 0, 1182, 118);
 		getContentPane().add(titlePanel);
-		
+
 		JPanel bookTablePanel = new BookTablePanel(this, 20);
 		bookTablePanel.setBounds(10, 128, 886, 484);
 		getContentPane().add(bookTablePanel);
-		
+
 		JPanel loginPanel = new JPanel();
 		loginPanel.setBorder(new TitledBorder(
 				UIManager.getBorder("TitledBorder.border"),
@@ -122,7 +124,7 @@ public class MainView extends JFrame implements ActionListener, KeyListener {
 		membership_btn.setBounds(147, 102, 104, 29);
 		membership_btn.addActionListener(this);
 		loginPanel.add(membership_btn);
-		
+
 		JPanel rentLogRankPanel = new JPanel();
 		rentLogRankPanel.setBorder(new TitledBorder(
 				UIManager.getBorder("TitledBorder.border"),
@@ -132,25 +134,25 @@ public class MainView extends JFrame implements ActionListener, KeyListener {
 		rentLogRankPanel.setLayout(null);
 		rentLogRankPanel.setBounds(912, 280, 262, 332);
 		getContentPane().add(rentLogRankPanel);
-		
-		table = new JTable();		
+
+		table = new JTable();
 		JScrollPane scrollPane = new JScrollPane(table);
 		scrollPane.setLocation(14, 32);
 		scrollPane.setSize(234, 278);
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		rentLogRankPanel.add(scrollPane);
-		
+
 		rentLogRankTable(Delegate.getInstance().rentLogCtrl.getRentRogRankList(), 16);
-		
+
 		setSize(1192, 654);
 		setLocationRelativeTo(null);
 		setVisible(true);
 
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
- 
+
 	public void rentLogRankTable(List<RentLogRankDto> list, int page_size){
-		page_size = list.size()<page_size ? list.size() : page_size; 
+		page_size = list.size()<page_size ? list.size() : page_size;
 		rowData = new Object[page_size][4];
 		for (int i = 0; i < rowData.length; i++) {
 			rowData[i][0] = list.get(i).getRank();
@@ -160,7 +162,7 @@ public class MainView extends JFrame implements ActionListener, KeyListener {
 		}
 
 		model = new DefaultTableModel(columnNames, 0);
-		model.setDataVector(rowData, columnNames);			
+		model.setDataVector(rowData, columnNames);
 		table.setModel(model);
 
 		table.getColumnModel().getColumn(0).setMaxWidth(50);
@@ -173,7 +175,7 @@ public class MainView extends JFrame implements ActionListener, KeyListener {
 		table.getColumn("순위").setCellRenderer(celAlignCenter);
 		table.getColumn("제목").setCellRenderer(celAlignCenter);
 		table.getColumn("대여횟수").setCellRenderer(celAlignCenter);
-		
+
 		table.addMouseListener(new MouseListener() {
 			Delegate d = Delegate.getInstance();
 			@Override	public void mousePressed(MouseEvent e) {
@@ -187,15 +189,15 @@ public class MainView extends JFrame implements ActionListener, KeyListener {
 		});
 	}
 
-	
-	
+
+
 	@Override public void actionPerformed(ActionEvent e) {
 		Delegate d = Delegate.getInstance();
 
 		if(e.getSource()==log_btn || e.getSource()==pwTextF){
 			d.memCtrl.loginAf(this, idTextF.getText(), String.valueOf(pwTextF.getPassword()));
 		}
-		else if(e.getSource()==membership_btn){	
+		else if(e.getSource()==membership_btn){
 			d.memCtrl.regi();
 		}
 		else if(e.getSource()==idTextF){
@@ -208,6 +210,6 @@ public class MainView extends JFrame implements ActionListener, KeyListener {
 			textF.setText(textF.getText().trim());
 		}
 	}
-	@Override public void keyPressed(KeyEvent e) {} 
+	@Override public void keyPressed(KeyEvent e) {}
 	@Override public void keyTyped(KeyEvent e) {}
 }

@@ -61,7 +61,7 @@ public class ReviewDetailView extends JFrame implements ActionListener {
 	private JTextField repleTextF;
 	private JButton addRepleBtn;
 	private JButton exitBtn;
-	
+
 	public ReviewDetailView(BookDto dto, BookReviewDto rdto) {
 		setTitle("리뷰");
 		this.dto = dto;
@@ -82,11 +82,11 @@ public class ReviewDetailView extends JFrame implements ActionListener {
 			protected void paintComponent(Graphics g) {
 				Image image = null;
 				try {
-					image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\"+dto.getImg()));
+					image = ImageIO.read(new File("img\\"+dto.getImg()));
 				}
 				catch (IOException | NullPointerException e) {
 					try {
-						image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\notFound.jpg"));
+						image = ImageIO.read(new File("img\\notFound.jpg"));
 					} catch (IOException e1) {}
 				}
 				image = image.getScaledInstance(img_width, img_height, Image.SCALE_SMOOTH);
@@ -255,17 +255,17 @@ public class ReviewDetailView extends JFrame implements ActionListener {
 			exitBtn.setBounds(603, 766, 105, 24);
 			exitBtn.addActionListener(this);
 			getContentPane().add(exitBtn);
-		
+
 		setSize(740, 846);
-		setLocationRelativeTo(null);		
+		setLocationRelativeTo(null);
 		setVisible(true);
 
 		this.addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing(WindowEvent e) {				
-				new BookDetailView(dto);	
+			public void windowClosing(WindowEvent e) {
+				new BookDetailView(dto);
 				dispose();
-			}			
+			}
 		});
 	}//constructor
 
@@ -311,7 +311,7 @@ public class ReviewDetailView extends JFrame implements ActionListener {
 					break;
 				default:
 					JOptionPane.showMessageDialog(null, "삭제를 취소했습니다.");
-			}			
+			}
 		}else if(e.getSource()==exitBtn){
 			new BookDetailView(dto);
 			this.dispose();
@@ -325,9 +325,9 @@ class replePanel extends JPanel implements ActionListener{
 	private String[] columnNames = {"번호", "내용", "아이디", "작성일", "+"};
 	private Object[][] rowData;
 	private DefaultTableModel model;
-	
+
 	JScrollPane repleScrollPane;
-	
+
 	Delegate d = Delegate.getInstance();
 	ReviewDetailView reviewDetailView;
 	BookReviewDto rdto;
@@ -342,7 +342,7 @@ class replePanel extends JPanel implements ActionListener{
 		add(repleLabel);
 
 		repleTable = new JTable();
-		makeRepleTable(d.bookReviewCtrl.getReviewRepleList(rdto.getIndex()));		
+		makeRepleTable(d.bookReviewCtrl.getReviewRepleList(rdto.getIndex()));
 		CellRenderer renderer = new CellRenderer(reviewDetailView, repleTable, rdto, model, rowData);
 		repleTable.getColumnModel().getColumn(4).setCellEditor(renderer);
 
@@ -368,9 +368,9 @@ class replePanel extends JPanel implements ActionListener{
 		}
 
 		model = new DefaultTableModel(columnNames, 0);
-		model.setDataVector(rowData, columnNames);			
+		model.setDataVector(rowData, columnNames);
 		repleTable.setModel(model);
-		
+
 		repleScrollPane = new JScrollPane(repleTable);
 		repleScrollPane.setBounds(14, 28, 640, 238);
 		add(repleScrollPane);
@@ -387,7 +387,7 @@ class replePanel extends JPanel implements ActionListener{
 		repleTable.getColumn("번호").setCellRenderer(celAlignCenter);
 		repleTable.getColumn("아이디").setCellRenderer(celAlignCenter);
 		repleTable.getColumn("작성일").setCellRenderer(celAlignCenter);
-		
+
 		repleScrollPane.getVerticalScrollBar().setValue(rowData.length*20);
 		repleScrollPane.getVerticalScrollBar().setValue(repleScrollPane.getVerticalScrollBar().getMaximum());
 		repleTable.updateUI();
@@ -420,7 +420,7 @@ class CellRenderer extends AbstractCellEditor implements TableCellRenderer,Table
 						}else{
 							String s = JOptionPane.showInputDialog("댓글을 입력하세요");
 							d.bookReviewCtrl.ReviewRepleAdd (
-									d.memCtrl.getLoginId(), s, 
+									d.memCtrl.getLoginId(), s,
 									(int)rowData[row][5], (int)rowData[row][6], (int)rowData[row][7], (int)rowData[row][8]);
 							reviewDetailView.setReplePanel();
 						}

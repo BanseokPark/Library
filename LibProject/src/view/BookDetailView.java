@@ -68,7 +68,7 @@ public class BookDetailView extends JFrame implements ActionListener, MouseListe
 	private JComboBox<String> typeCombo;
 	private JTextArea infoTextA;
 
-	private String loginId = "";	
+	private String loginId = "";
 	private MemberDto mem = null;
 
 	public BookDetailView(BookDto dto) {
@@ -76,23 +76,25 @@ public class BookDetailView extends JFrame implements ActionListener, MouseListe
 		this.dto = dto;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
-		
-		JPanel titlePanel = new JPanel(){
-			private static final long serialVersionUID = 1L;
-			@Override
-			protected void paintComponent(Graphics g) {
-				Image image = null;
-				try {
-					image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\title1.png"));
-				}
-				catch (NullPointerException|IOException e) {
-					try {						
-						image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\notFound.jpg"));
-					} catch (IOException e1) {}
-				}
-				g.drawImage(image, 0, 0, this);
-			}
-		};
+
+    JPanel titlePanel = new JPanel(){
+      private static final long serialVersionUID = 1L;
+      @Override
+      protected void paintComponent(Graphics g) {
+        Image image = null;
+        try {
+          //image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\title1.png"));
+          image = ImageIO.read(new File("img\\title1.png"));
+        }
+        catch (NullPointerException|IOException e) {
+          try {
+            //image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\notFound.jpg"));
+            image = ImageIO.read(new File("img\\notFound.png"));
+          } catch (IOException e1) {}
+        }
+        g.drawImage(image, 0, 0, this);
+      }
+    };
 		titlePanel.setOpaque(false);
 		titlePanel.setLayout(null);
 		titlePanel.setBackground(Color.red);
@@ -105,17 +107,19 @@ public class BookDetailView extends JFrame implements ActionListener, MouseListe
 
 		int img_width = 373;
 		int img_height = img_width*3/2;
+
+
 		JPanel imgPanel = new JPanel(){
 			private static final long serialVersionUID = 1L;
 			@Override
 			protected void paintComponent(Graphics g) {
 				Image image = null;
 				try {
-					image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\"+dto.getImg()));
+					image = ImageIO.read(new File("img\\"+dto.getImg()));
 				}
 				catch (NullPointerException|IOException e) {
-					try {						
-						image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\notFound.jpg"));
+					try {
+						image = ImageIO.read(new File("img\\notFound.jpg"));
 					} catch (IOException e1) {}
 				}
 				image = image.getScaledInstance(img_width, img_height, Image.SCALE_SMOOTH);
@@ -145,12 +149,12 @@ public class BookDetailView extends JFrame implements ActionListener, MouseListe
 		authorlabel.setHorizontalAlignment(SwingConstants.CENTER);
 
 		JLabel publisherLabel = new JLabel("출판사");
-		publisherLabel.setBounds(210, 57, 57, 15);			
+		publisherLabel.setBounds(210, 57, 57, 15);
 		bookInfoPanel.add(publisherLabel);
 		publisherLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
 		JLabel locationLabel = new JLabel("위치");
-		locationLabel.setBounds(417, 57, 38, 15);	
+		locationLabel.setBounds(417, 57, 38, 15);
 		bookInfoPanel.add(locationLabel);
 		locationLabel.setHorizontalAlignment(SwingConstants.LEFT);
 
@@ -207,7 +211,7 @@ public class BookDetailView extends JFrame implements ActionListener, MouseListe
 
 		isbnTextF = new JTextField(dto.getIsbn());
 		isbnTextF.setBounds(273, 81, 116, 21);
-		
+
 		bookInfoPanel.add(isbnTextF);
 		isbnTextF.setBorder(null);
 		isbnTextF.setEditable(false);
@@ -225,18 +229,18 @@ public class BookDetailView extends JFrame implements ActionListener, MouseListe
 						// 평균 평점의 정수부분 숫자만큼 모두 채워진 별을 그리고
 						// 소수 부분은 소수점 2째자리에서 반올림한 후 0.1단위로 나누어서 그림
 						if(i<(int)avg_rate){ // 모두 채워진 별
-							image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\star10.jpg"));
+							image = ImageIO.read(new File("img\\star10.jpg"));
 						}else if(i==(int)avg_rate){
 							// j : avg_rate의 소수점 2번째 자리 반올림하고 소수점 1번째 자리수 가져옴
 							int j = (int)((avg_rate+0.05)*10)%10;
 							// == Math.round(avg_rate*10)%10;
-							image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\star" + j + ".jpg"));
+							image = ImageIO.read(new File("img\\star" + j + ".jpg"));
 						}else{ // 윤곽선만 있는 별
-							image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\star0.jpg"));
+							image = ImageIO.read(new File("img\\star0.jpg"));
 						}
 						image = image.getScaledInstance(star_img_size, star_img_size, 4);
 						g.drawImage(image, i*star_img_size, 0, this);
-					}	
+					}
 				}
 				catch (IOException e) {}
 				catch (NullPointerException e) {}
@@ -290,23 +294,23 @@ public class BookDetailView extends JFrame implements ActionListener, MouseListe
 			reviewTablePanel.add(addReviewBtn);
 		}
 
-		if(!d.memCtrl.getLoginId().equals("") && mem.getAuth() != 3){			
+		if(!d.memCtrl.getLoginId().equals("") && mem.getAuth() != 3){
 			titleTextF.setEditable(true);
 			authorTextF.setEditable(true);
 			isbnTextF.setEditable(true);
 			locationTextF.setEditable(true);
 			publisherTextF.setEditable(true);
-			
-			bookInfoPanel.remove(typeTextF);			
+
+			bookInfoPanel.remove(typeTextF);
 			typeCombo = new JComboBox<String>();
 			typeCombo.addItem("시");
 			typeCombo.addItem("소설");
 			typeCombo.addItem("요리");
 			typeCombo.addItem("과학");
-			typeCombo.addItem("교양");		
+			typeCombo.addItem("교양");
 			typeCombo.setSelectedItem(dto.getType());
 			typeCombo.setBounds(57, 78, 116, 21);
-			bookInfoPanel.add(typeCombo);			
+			bookInfoPanel.add(typeCombo);
 
 			updateBtn = new JButton("책 수정");
 			updateBtn.setBounds(908, 697, 100, 40);
@@ -322,11 +326,11 @@ public class BookDetailView extends JFrame implements ActionListener, MouseListe
 
 
 		boolean myRent = d.rentCtrl.checkMyRent(d.memCtrl.getLoginId(), dto.getIsbn()); // 내가 빌린 도서인지 확인
-		boolean bookingState = d.bookCtrl.checkBookingState(dto.getIsbn());		
+		boolean bookingState = d.bookCtrl.checkBookingState(dto.getIsbn());
 
 		if(d.memCtrl.getLoginId() != "" && mem.getAuth() != 1){ // 로그인 상태인지 확인
 
-			if(dto.getRentstate().equals("대여가능")){ // 도서가 대여가능한 상태인지 확인	
+			if(dto.getRentstate().equals("대여가능")){ // 도서가 대여가능한 상태인지 확인
 				rentBtn = new JButton("대여");
 				rentBtn.setBounds(577, 697, 100, 40);
 				rentBtn.addActionListener(this);
@@ -336,45 +340,45 @@ public class BookDetailView extends JFrame implements ActionListener, MouseListe
 				bookingBtn = new JButton("예약");
 				bookingBtn.setBounds(577, 697, 100, 40);
 				bookingBtn.addActionListener(this);
-				getContentPane().add(bookingBtn);			
-			}	
+				getContentPane().add(bookingBtn);
+			}
 		}
 
-		if (myRent){ 
+		if (myRent){
 			returnBtn = new JButton("반납");
 			returnBtn.setBounds(577, 697, 100, 40);
 			returnBtn.addActionListener(this);
 			getContentPane().add(returnBtn);
 		}
-		
+
 		setSize(1150,808);
 		setLocationRelativeTo(null);
 		setVisible(true);
-		
+
 		this.addWindowListener(new WindowAdapter() {
 			@Override
-			public void windowClosing(WindowEvent e) {				
+			public void windowClosing(WindowEvent e) {
 				dispose();
 				if(!d.memCtrl.getLoginId().equals("admin") && !d.memCtrl.getLoginId().equals("")){
 					new UserView(d.memCtrl.getMemberRentInfo(loginId));
 				}
-			}			
+			}
 		});
 	}
 
 	public void bookReviewTable(List<BookReviewDto> list){
 		bookReviewTable(list, this.page);
 	}
-	public void bookReviewTable(List<BookReviewDto> list, int page){ 
+	public void bookReviewTable(List<BookReviewDto> list, int page){
 		this.page = page;
-		int start_num = (this.page-1)*page_size;                  // 해당 페이지 시작번호   
+		int start_num = (this.page-1)*page_size;                  // 해당 페이지 시작번호
 		int last_num = start_num+page_size;                  // 해당 페이지 마지막 번호
 		if(last_num > list.size()) last_num = list.size();
 
 		rowData = new Object[last_num-start_num][6];
 		for (int i = 0; i < rowData.length; i++) {
 			rowData[i][0] = start_num+1;
-			rowData[i][1] = list.get(start_num).getId();			
+			rowData[i][1] = list.get(start_num).getId();
 			rowData[i][2] = list.get(start_num).getTitle();
 			rowData[i][3] = list.get(start_num).getWritedate();
 			String rate = "";
@@ -386,7 +390,7 @@ public class BookDetailView extends JFrame implements ActionListener, MouseListe
 		}
 
 		DefaultTableModel model = new DefaultTableModel(columnNames, 0);
-		model.setDataVector(rowData, columnNames);			
+		model.setDataVector(rowData, columnNames);
 		reviewTable.setModel(model);
 
 		reviewTable.getColumnModel().getColumn(0).setMaxWidth(50);
@@ -453,8 +457,8 @@ public class BookDetailView extends JFrame implements ActionListener, MouseListe
 		String isbn = isbnTextF.getText();
 		String id = d.memCtrl.getLoginId();
 
-		if (e.getSource() == rentBtn){ // 대여						
-			if(d.memCtrl.getRentCount(id)){ // 1.대여 갯수가 4개 이하일 경우, 대여 허용(true)으로 보고 대여갯수를 +1 시킴 (MEMBER)	
+		if (e.getSource() == rentBtn){ // 대여
+			if(d.memCtrl.getRentCount(id)){ // 1.대여 갯수가 4개 이하일 경우, 대여 허용(true)으로 보고 대여갯수를 +1 시킴 (MEMBER)
 				boolean addrentList = d.rentCtrl.addRent(isbn, id);
 				boolean addrentLog = d.rentLogCtrl.addRentLog(isbn, id);
 				boolean changeRentState =d.bookCtrl.changeRentState(isbn, "대여중");
@@ -462,40 +466,40 @@ public class BookDetailView extends JFrame implements ActionListener, MouseListe
 					JOptionPane.showMessageDialog(null, "대여 성공 : 대여 되었습니다.");
 				}
 				this.dispose();
-				new UserView(d.memCtrl.getMemberRentInfo(id)); // 새로고침				
+				new UserView(d.memCtrl.getMemberRentInfo(id)); // 새로고침
 
 			}else{ // 대여 갯수가 최대 한도인 3개일 경우, 오류메시지 출력
 				JOptionPane.showMessageDialog(null, "대여 불가 : 최대 대여 가능 갯수 5개를 초과하였습니다.");
 			}
 
 		}else if(e.getSource() == bookingBtn){ // 예약
-			boolean bookingAllow = d.memCtrl.getBookingCount(id); // 1.예약 갯수가 4개 이하일 경우, 대여 허용(true)으로 보고 대여갯수를 +1 시킴 (MEMBER)			
-			if(bookingAllow){ 			
+			boolean bookingAllow = d.memCtrl.getBookingCount(id); // 1.예약 갯수가 4개 이하일 경우, 대여 허용(true)으로 보고 대여갯수를 +1 시킴 (MEMBER)
+			if(bookingAllow){
 				boolean addBookingID =  d.bookCtrl.addBookingID(id, isbn); // 2.예약 id 추가
-				if(addBookingID){	
-					JOptionPane.showMessageDialog(null, "예약 성공 : 예약 되었습니다."); 				
+				if(addBookingID){
+					JOptionPane.showMessageDialog(null, "예약 성공 : 예약 되었습니다.");
 					this.dispose();
 					new UserView(d.memCtrl.getMemberRentInfo(id)); // 새로고침
 				}
-				else{ JOptionPane.showMessageDialog(null, "예약에 실패하였습니다."); }				
+				else{ JOptionPane.showMessageDialog(null, "예약에 실패하였습니다."); }
 
 			}else{ // 대여 갯수가 최대 한도인 3개일 경우, 오류메시지 출력
 				JOptionPane.showMessageDialog(null, "예약 불가 : 최대 예약 가능 갯수 5개를 초과하였습니다.");
 			}
 
-		}else if(e.getSource() == returnBtn){ // 반납					
+		}else if(e.getSource() == returnBtn){ // 반납
 			boolean deleteRent = d.rentCtrl.deleteRent(isbn);
 			boolean addreturnLog = d.rentLogCtrl.addReturnLog(isbn, id);
 			boolean changeRentState = d.bookCtrl.changeRentState(isbn, "대여가능");
 			boolean minusRentCount = d.memCtrl.minusRentCount(id);
 
 			if(deleteRent && addreturnLog && changeRentState && minusRentCount){
-				JOptionPane.showMessageDialog(null, "반납 성공 : 반납 되었습니다."); 				
+				JOptionPane.showMessageDialog(null, "반납 성공 : 반납 되었습니다.");
 			}else{
-				JOptionPane.showMessageDialog(null, "반납 실패 : 반납 실패했습니다."); 
+				JOptionPane.showMessageDialog(null, "반납 실패 : 반납 실패했습니다.");
 			}
 			this.dispose();
-			new UserView(d.memCtrl.getMemberRentInfo(id)); // 새로고침	
+			new UserView(d.memCtrl.getMemberRentInfo(id)); // 새로고침
 		}
 
 		if(e.getSource()==addReviewBtn){

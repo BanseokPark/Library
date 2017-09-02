@@ -32,57 +32,57 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
 public class UserRentLogView extends JFrame implements ActionListener {
-	private static final long serialVersionUID = 1L;	
+	private static final long serialVersionUID = 1L;
 	Delegate d = Delegate.getInstance();
-	
+
 	// 테이블
 	private String[] rentColumn = {"번호", "코드", "제목", "장르", "출판사", "저자", "대여일" , "반납예정일"};
 	//private String[] rentLogColumn = {"번호", "코드", "제목", "장르", "출판사", "저자", "날짜", "대여/반납"};
 	DefaultTableModel model;
 	private Object[][] rowData;
-	
- 
+
+
 	// 검색
 	JComboBox<String> searchType;
-	private JTable tableR;	
-	
+	private JTable tableR;
+
 	// 로그인 정보
 	private JLabel idLab;
 	private JLabel rentCountLab;
 	private JLabel rentCountLab2;
 	private JLabel bookingLab;
 	private JLabel bookingLab2;
-	
+
 	// 메뉴
 	private JButton requestBtn;
 	private JButton chatBtn;
 	private JButton homeBtn;
 	private JButton logoutBtn;
-	
+
 	// myInfo
 	String myId;
 	String myName;
 	int myRentCount;
 	int myBookingCount;
-	
-	
+
+
 
 	public UserRentLogView(MemberDto myInfo) {
-		
-		super("대여/반납 목록");		
+
+		super("대여/반납 목록");
 		getContentPane().setLayout(null);
-		
+
 		JPanel titlePanel = new JPanel(){
 			private static final long serialVersionUID = 1L;
 			@Override
 			protected void paintComponent(Graphics g) {
 				Image image = null;
 				try {
-					image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\title1.png"));
+					image = ImageIO.read(new File("img\\title1.png"));
 				}
 				catch (NullPointerException|IOException e) {
-					try {						
-						image = ImageIO.read(new File("\\\\192.168.10.20\\공유\\LibraryProject_Image\\notFound.jpg"));
+					try {
+						image = ImageIO.read(new File("img\\notFound.jpg"));
 					} catch (IOException e1) {}
 				} g.drawImage(image, 0, 0, this);
 			}
@@ -92,34 +92,34 @@ public class UserRentLogView extends JFrame implements ActionListener {
 		titlePanel.setBackground(Color.red);
 		titlePanel.setBounds(0, 0, 1182, 118);
 		getContentPane().add(titlePanel);
-		
+
 		JPanel rentLogPanel = new UserRentLogPanel(this,20);
 		rentLogPanel.setBounds(10, 128, 886, 462);
 		getContentPane().add(rentLogPanel);
-	
 
-		
+
+
 		JPanel panelLogin = new JPanel();
 		panelLogin.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "로그인", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		panelLogin.setBounds(901, 128, 265, 142);
 		getContentPane().add(panelLogin);
 		panelLogin.setLayout(null);
-				
+
 		myId = myInfo.getId();
 		myName = myInfo.getName();
 		myRentCount = myInfo.getRentcount();
 		myBookingCount = myInfo.getbookingcount();
 
-		
+
         Date date = new Date();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy / MM / dd");
-        String sysdate = sdf.format(date);	
-		idLab = new JLabel(sysdate + ", '" + myName + "' 님  접속");		
+        String sysdate = sdf.format(date);
+		idLab = new JLabel(sysdate + ", '" + myName + "' 님  접속");
 		idLab.setBounds(45, 24, 250, 15);
 		panelLogin.add(idLab);
-	
 
-		
+
+
 		rentCountLab = new JLabel("대여중 : " + myRentCount + "권");
 		rentCountLab.setBounds(45, 50, 250, 15);
 		panelLogin.add(rentCountLab);
@@ -132,14 +132,14 @@ public class UserRentLogView extends JFrame implements ActionListener {
 		bookingLab2 = new JLabel("예약가능 : " + (5-myBookingCount)+ "권");
 		bookingLab2.setBounds(135, 70, 250, 15);
 		panelLogin.add(bookingLab2);
-		
-		
+
+
 		logoutBtn = new JButton("로그아웃");
 		logoutBtn.setBounds(31, 95, 210, 30);
-		logoutBtn.addActionListener(this);	
+		logoutBtn.addActionListener(this);
 		panelLogin.add(logoutBtn);
-		
-	
+
+
 		JPanel menuPanel = new JPanel();
 		menuPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "메뉴", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		menuPanel.setBounds(901, 273, 265, 315);
@@ -150,29 +150,29 @@ public class UserRentLogView extends JFrame implements ActionListener {
 		homeBtn.addActionListener(this);
 		homeBtn.setBounds(31, 30, 210, 70);
 		menuPanel.add(homeBtn);
-		
+
 		requestBtn = new JButton("구매 신청/목록");
 		requestBtn.setBounds(31, 120, 210, 70);
 		requestBtn.addActionListener(this);
 		menuPanel.add(requestBtn);
-		
+
 		chatBtn = new JButton("관리자와 채팅");
 		chatBtn.setBounds(31, 210, 210, 70);
-		chatBtn.addActionListener(this);		
+		chatBtn.addActionListener(this);
 		menuPanel.add(chatBtn);
-		
 
 
-		rentTable(Delegate.getInstance().rentCtrl.getRentList(d.memCtrl.getLoginId()));	
+
+		rentTable(Delegate.getInstance().rentCtrl.getRentList(d.memCtrl.getLoginId()));
 
 		setSize(1192, 800);
-		setLocationRelativeTo(null);		
-		setVisible(true);		
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 
-	public void rentTable(List<RentDto> rentList){		
+	public void rentTable(List<RentDto> rentList){
 		rowData = new Object[rentList.size()][rentColumn.length];
-		for (int i = 0; i < rentList.size(); i++) {			
+		for (int i = 0; i < rentList.size(); i++) {
 			rowData[i][0] = i+1;
 			rowData[i][1] = rentList.get(i).getIsbn();
 			rowData[i][2] = rentList.get(i).getTitle();
@@ -182,10 +182,10 @@ public class UserRentLogView extends JFrame implements ActionListener {
 			rowData[i][6] = rentList.get(i).getRentdate();
 			rowData[i][7] = rentList.get(i).getReturndate();
 		}
-		
+
 		tableR = new JTable();
 		model = new DefaultTableModel(rentColumn, 0);
-		model.setDataVector(rowData, rentColumn);			
+		model.setDataVector(rowData, rentColumn);
 		model.fireTableDataChanged();
 		tableR.setModel(model);
 
@@ -200,7 +200,7 @@ public class UserRentLogView extends JFrame implements ActionListener {
 
 		DefaultTableCellRenderer celAlignCenter = new DefaultTableCellRenderer();
 		celAlignCenter.setHorizontalAlignment(JLabel.CENTER);
-		
+
 		tableR.getColumn("번호").setCellRenderer(celAlignCenter);
 		tableR.getColumn("코드").setCellRenderer(celAlignCenter);
 		tableR.getColumn("제목").setCellRenderer(celAlignCenter);
@@ -209,43 +209,43 @@ public class UserRentLogView extends JFrame implements ActionListener {
 		tableR.getColumn("저자").setCellRenderer(celAlignCenter);
 		tableR.getColumn("대여일").setCellRenderer(celAlignCenter);
 		tableR.getColumn("반납예정일").setCellRenderer(celAlignCenter);
-		
+
 		tableR.addMouseListener(new MouseListener() {
-			
-			@Override public void mousePressed(MouseEvent e) {				
+
+			@Override public void mousePressed(MouseEvent e) {
 				int rowNum = tableR.getSelectedRow();
 				System.out.println("tableSize : " + tableR.getRowCount());
-				System.out.println("rowNum : " + rowNum);				
-				
-				if(rowNum == -1) return;			
-				String isbn = (String) rentList.get(rowNum).getIsbn(); // seq		
+				System.out.println("rowNum : " + rowNum);
+
+				if(rowNum == -1) return;
+				String isbn = (String) rentList.get(rowNum).getIsbn(); // seq
 				d.bookCtrl.showDetail(isbn);
 				dispose();
 			}
-			@Override public void mouseReleased(MouseEvent e) {}	
-			@Override public void mouseExited(MouseEvent e) {}			
+			@Override public void mouseReleased(MouseEvent e) {}
+			@Override public void mouseExited(MouseEvent e) {}
 			@Override public void mouseEntered(MouseEvent e) {}
 			@Override public void mouseClicked(MouseEvent e) {}
 		});
-		
-		
-		
+
+
+
 		JPanel rentPanel = new JPanel();
 		rentPanel.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "대여중인 도서", TitledBorder.CENTER, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		rentPanel.setBounds(10, 598, 886, 150);
 		getContentPane().add(rentPanel);
 		rentPanel.setLayout(null);
-		
-		
+
+
 		JScrollPane scrollPane = new JScrollPane(tableR);
 		scrollPane.setBounds(15, 30, 857, 103);
 		rentPanel.add(scrollPane);
 
 	}
-	
-	@Override public void actionPerformed(ActionEvent e) {		
+
+	@Override public void actionPerformed(ActionEvent e) {
 		if(e.getSource() == homeBtn){
-			d.memCtrl.userHome();			
+			d.memCtrl.userHome();
 			this.dispose();
 		}else if(e.getSource() == requestBtn){
 			new UserBookRequestView(new MemberDto(myId, myName, myRentCount, myBookingCount));
@@ -258,6 +258,6 @@ public class UserRentLogView extends JFrame implements ActionListener {
 		}else if(e.getSource() == chatBtn){
 			d.chatCtrl.Chatting(myId);
 		}
-		
+
 	}
 }
