@@ -300,6 +300,8 @@ public class BookDetailView extends JFrame implements ActionListener, MouseListe
 			isbnTextF.setEditable(true);
 			locationTextF.setEditable(true);
 			publisherTextF.setEditable(true);
+			infoTextA.setEditable(true);
+			infoTextA.setBackground(Color.WHITE);
 
 			bookInfoPanel.remove(typeTextF);
 			typeCombo = new JComboBox<String>();

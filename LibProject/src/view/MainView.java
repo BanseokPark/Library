@@ -200,6 +200,7 @@ public class MainView extends JFrame implements ActionListener, KeyListener {
 			pwTextF.grabFocus();
 		}
 	}
+	
 	@Override public void keyReleased(KeyEvent e) {
 		JTextField textF = (JTextField) e.getSource();
 		if(e.getKeyCode()==KeyEvent.VK_SPACE){

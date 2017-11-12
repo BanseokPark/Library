@@ -194,7 +194,7 @@ public class ReviewDetailView extends JFrame implements ActionListener {
 		titleLabel.setBounds(14, 48, 44, 24);
 		reviewPanel.add(titleLabel);
 
-		titleTextF = new JTextField(rdto.getBooktitle());
+		titleTextF = new JTextField(rdto.getTitle().length()>20?rdto.getTitle().substring(0, 20)+"...":rdto.getTitle());
 		titleTextF.setBorder(null);
 		titleTextF.setEditable(false);
 		titleTextF.setBounds(72, 48, 186, 24);
